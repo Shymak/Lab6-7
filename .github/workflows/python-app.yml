@@ -82,5 +82,5 @@ jobs:
     
     - name: Build and push
       run: |
-        docker build -t aws:latest .
-        docker push aws:latest
+        docker build -t 4ykcha/aws:latest .
+        docker push 4ykcha/aws:latest
