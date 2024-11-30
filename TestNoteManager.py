@@ -57,10 +57,5 @@ class TestNoteManager(unittest.TestCase):
         self.note_manager.edit_note_by_index("24-09-2024", 0, "Нова нотатка")
         self.assertEqual(self.note_manager.notes_queue[0].content, "Нова нотатка")
         
-    import xmlrunner
-    runner = xmlrunner.XMLTestRunner(output='test-reports')
-    unittest.main(testRunner=runner)
-
-
 if __name__ == '__main__':
     unittest.main()
