@@ -7,17 +7,17 @@ terraform {
     }
   }
 backend "s3" {
-    bucket = "lab67-my-tf-state"
+    bucket = "lab6-7"
     key = "terraform.tfstate"
-    region = "us-east-1"
-    dynamodb_table = "lab67-my-tf-lockid" 
+    region = "eu-north-1"
+    dynamodb_table = "lab6-7" 
 
   }
 }
 
 # Configure the AWS provider
 provider "aws" {
-  region     = "us-east-1"
+  region     = "eu-north-1"
 }
 
 resource "aws_security_group" "web_app" {
@@ -49,25 +49,19 @@ resource "aws_security_group" "web_app" {
 }
 
 resource "aws_instance" "web_instance" {
-  ami           = "ami-0166fe664262f664c"
+  ami           = "ami-08eb150f611ca277f"
   instance_type = "t2.micro"
   security_groups = ["web_app"]
  user_data = <<-EOF
   #!/bin/bash
-  # Встановлення Docker
   curl -fsSL https://get.docker.com -o get-docker.sh
   sudo sh get-docker.sh
-  sudo usermod -aG docker ec2-user  # Додавання користувача ec2-user в групу docker
-
-  # Перезавантаження групи для користувача
+  sudo groupadd docker
+  sudo usermod -aG docker $USER
   newgrp docker
+  docker pull  aws:latest
+  docker run -it aws:latest
 
-  # Завантаження і запуск контейнера
-  docker pull andriypolyuh/aws:latest
-  docker run -id -p 8088:8088 andriypolyuh/aws:latest
-
-  # Перевірка, чи запущено Docker
-  docker ps
   EOF
 
   tags = {
