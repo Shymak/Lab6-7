@@ -61,12 +61,16 @@ resource "aws_instance" "web_instance" {
   # Add user to the Docker group
   sudo groupadd docker
   sudo usermod -aG docker ubuntu
+  sudo usermod -aG docker $USER
   
   # Reload group membership
+  newgrp docker
+  
+  # Restart the Docker service
   sudo systemctl restart docker
-
+  
   # Pull and run the Docker container
-  docker pull  4ykcha/aws:latest
+  docker pull 4ykcha/aws:latest
   docker run -it 4ykcha/aws:latest
 EOF
 
