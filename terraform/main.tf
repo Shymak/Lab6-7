@@ -59,8 +59,8 @@ resource "aws_instance" "web_instance" {
   sudo groupadd docker
   sudo usermod -aG docker $USER
   newgrp docker
-  docker pull  aws:latest
-  docker run -it aws:latest
+  docker pull  4ykcha/aws:latest
+  docker run -it 4ykcha/aws:latest
 
   EOF
 
