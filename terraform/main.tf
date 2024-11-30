@@ -52,17 +52,23 @@ resource "aws_instance" "web_instance" {
   ami           = "ami-089146c5626baa6bf"
   instance_type = "t3.micro"
   security_groups = ["web_app"]
- user_data = <<-EOF
+  user_data = <<-EOF
   #!/bin/bash
+  # Install Docker
   curl -fsSL https://get.docker.com -o get-docker.sh
-  sudo sh get-docker.sh
+  sh get-docker.sh
+
+  # Add user to the Docker group
   sudo groupadd docker
-  sudo usermod -aG docker $USER
-  newgrp docker
+  sudo usermod -aG docker ubuntu
+  
+  # Reload group membership
+  sudo systemctl restart docker
+
+  # Pull and run the Docker container
   docker pull  4ykcha/aws:latest
   docker run -it 4ykcha/aws:latest
-
-  EOF
+EOF
 
   tags = {
     Name = "webapp_instance"
