@@ -50,7 +50,7 @@ resource "aws_security_group" "web_app" {
 
 resource "aws_instance" "web_instance" {
   ami           = "ami-089146c5626baa6bf"
-  instance_type = "t2.micro"
+  instance_type = "t3.micro"
   security_groups = ["web_app"]
  user_data = <<-EOF
   #!/bin/bash
